@@ -2,7 +2,11 @@
 #include <stdlib.h>
 
 int Grid[8][8];
+int movefrom_x[64], movefrom_y[64];
+int moveto_x[64], moveto_y[64];
 int i, j, k;
+int white = 1;
+int count;
 
 void setup()
 {
@@ -27,7 +31,7 @@ void setup()
 
         //white
     Grid[7][0] = 1;
-    Grid[7][0] = 1;
+    Grid[7][7] = 1;
 
     Grid[7][1] = 2;
     Grid[7][6] = 2;
@@ -63,10 +67,60 @@ render()
     }
 }
 
+turn()
+{
+    if (white)
+    {
+        //bug running scanf twice for movefrom
+        // bug Also, scanf line moveto_y  runs beforeactivating piece
+        printf("Whites Turn,  Pick (Column,Row), seperated by a line:\n");
+        scanf("%d\n", &movefrom_y[count]);
+        scanf("%d\n", &movefrom_x[count]);
+
+        //printf("Activating Piece: (%d,%d)\n", movefrom_y[count], movefrom_x[count]);
+
+        //printf("Moving To: ");
+        scanf("%d\n", &moveto_y[count]);
+        scanf("%d\n", &moveto_x[count]);
+        //printf("Moving Piece To: (%d,%d)\n", moveto_y[count], moveto_x[count]);
+
+        if (movefrom_y[count] == moveto_y[count] && movefrom_x[count] == moveto_x[count])
+        {
+            printf("\n||  Error!  ||\nnot moving\n");
+        } else
+        {
+            move();
+        }
+
+
+        white = 0;
+    } else
+    {
+
+        white = 1;
+    }
+    count++;
+}
+
+move()
+{
+//    printf("(%d,%d)", movefrom_y[count], movefrom_x[count]);
+//    printf("(%d,%d)", moveto_y[count], moveto_x[count]);
+
+    Grid[moveto_y[count]-1][moveto_x[count]-1] = Grid[movefrom_y[count]-1][movefrom_x[count]-1];
+    Grid[movefrom_y[count]-1][movefrom_x[count]-1] = 0;
+
+    render();
+}
+
 int main()
 {
     setup();
     render();
+
+    //white to move
+    turn();
+    printf("\nTurn: %d\n", count);
 
 
     return 0;
