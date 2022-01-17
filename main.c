@@ -13,8 +13,8 @@ void setup()
 {
     for (k=1; k<dimension;k++)
     {
-        Grid[0][k] = k;
-        Grid[k][0] = k;
+        Grid[0][k] = k+10;
+        Grid[k][0] = k+10;
     }
 
         // black
@@ -62,12 +62,60 @@ render()
     {
         for (j=0; j<dimension; j++)
         {
-            printf("  %d  |", Grid[i][j]);
+            if (Grid[i][j] == 1)
+            {
+                printf("  Rock  |");
+            } else if (Grid[i][j] == 2)
+            {
+                printf(" Horse  |");
+            } else if (Grid[i][j] == 3)
+            {
+                printf(" Bishop |");
+            } else if (Grid[i][j] == 4)
+            {
+                printf(" Queen  |");
+            } else if (Grid[i][j] == 5)
+            {
+                printf("  King  |");
+            } else if (Grid[i][j] == 6)
+            {
+                printf(" WPawn  |");
+            } else if (Grid[i][j] == 7)
+            {
+                printf(" BPawn  |");
+            } else if (Grid[i][j] == 11)
+            {
+                printf("   1    |");
+            } else if (Grid[i][j] == 12)
+            {
+                printf("   2    |");
+            } else if (Grid[i][j] == 13)
+            {
+                printf("   3    |");
+            } else if (Grid[i][j] == 14)
+            {
+                printf("   4    |");
+            } else if (Grid[i][j] == 15)
+            {
+                printf("   5    |");
+            } else if (Grid[i][j] == 16)
+            {
+                printf("   6    |");
+            } else if (Grid[i][j] == 17)
+            {
+                printf("   7    |");
+            } else if (Grid[i][j] == 18)
+            {
+                printf("   8    |");
+            } else
+            {
+                printf("        |");
+            }
         }
         printf("\n");
         for (k=0; k<dimension; k++)
         {
-            printf(" ---- ");
+            printf(" ------- ");
         }
         printf("\n");
     }
