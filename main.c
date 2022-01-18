@@ -5,7 +5,7 @@ int Grid[9][9];
 int dimension = 9;
 int movefrom_x[64], movefrom_y[64];
 int moveto_x[64], moveto_y[64];
-int i, j, k, internal;
+int i, j, k, internal, black_pawn_moved[9], white_pawn_moved[9];
 int white = 1;
 int count;
 
@@ -125,37 +125,20 @@ turn()
 {
     if (white)
     {
-        //bug running scanf twice for movefrom
-        // bug Also, scanf line moveto_y  runs beforeactivating piece
-        printf("White's Turn,  Pick (Column,Row), seperated by a spaces / lines:\n");
-        scanf("%d\n", &movefrom_y[count]);
-        scanf("%d\n", &movefrom_x[count]);
-
-        //printf("Activating Piece: (%d,%d)\n", movefrom_y[count], movefrom_x[count]);
-        scanf("%d\n", &moveto_y[count]);
-        scanf("%d\n", &moveto_x[count]);
-        //printf("Moving Piece To: (%d,%d)\n", moveto_y[count], moveto_x[count]);
-
+        printf("White's Turn,  Four Values, (Column,Row), seperated by a spaces:\n");
+        scanf("%d %d %d %d", &movefrom_y[count], &movefrom_x[count], &moveto_y[count], &moveto_x[count]);
         verify();
 
     } else
     {
-        printf("Black's Turn,  Pick (Column,Row), seperated by a spaces / lines:\n");
-        scanf("%d\n", &movefrom_y[count]);
-        scanf("%d\n", &movefrom_x[count]);
-
-        scanf("%d\n", &moveto_x[count]);
-        scanf("%d\n", &moveto_y[count]);
-
+        printf("Black's Turn,  Four Values, (Column,Row), seperated by a spaces:\n");
+        scanf("%d %d %d %d", &movefrom_y[count], &movefrom_x[count], &moveto_y[count], &moveto_x[count]);
         verify();
     }
 }
 
 move()
 {
-//    printf("(%d,%d)", movefrom_y[count], movefrom_x[count]);
-//    printf("(%d,%d)", moveto_y[count], moveto_x[count]);
-
     Grid[moveto_y[count]][moveto_x[count]] = Grid[movefrom_y[count]][movefrom_x[count]];
     Grid[movefrom_y[count]][movefrom_x[count]] = 0;
 
@@ -179,30 +162,137 @@ verify()
             printf("\n||  Error!  ||\nnot moving\n");
         } else
         {
-            if (Grid[movefrom_y[count]][movefrom_x[count]] == 6)
+                // Player One
+            if (Grid[movefrom_y[count]][movefrom_x[count]] == 1)
             {
-                if (movefrom_x[count] == moveto_x[count])
-                {
-                    if (moveto_y[count] == movefrom_y[count]+1 || moveto_y[count] == movefrom_y[count]+2)
-                    {
-                        move();
-                    }
-                }
-            } else
-            {
-                if (Grid[movefrom_y[count]][movefrom_x[count]] == 7)
-                {
-                    if (moveto_y[count] == movefrom_y[count]-1 || moveto_y[count] == movefrom_y[count]-2)
-                    {
-                        move();
-                    }
-                } else
+                    //Rock
+                if (moveto_x[count] == movefrom_x[count] || moveto_y[count] == movefrom_y[count])
                 {
                     move();
                 }
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 2)
+            {
+                    //Knight
+                if (moveto_x[count] == movefrom_x[count]+1 && moveto_y[count] == movefrom_y[count]+2)
+                {
+                    move();
+                } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]+2)
+                {
+                    move();
+                } else if (moveto_x[count] == movefrom_x[count]+1 && moveto_y[count] == movefrom_y[count]-2)
+                {
+                    move();
+                } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]-2)
+                {
+                    move();
+                } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]+1)
+                {
+                    move();
+                } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]-1)
+                {
+                    move();
+                } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]+1)
+                {
+                    move();
+                } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]-1)
+                {
+                    move();
+                }
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 3)
+            {
+                    //Bishop
+                    if (moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
+                {
+                    move();
+                }
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 4)
+            {
+                    //Queen
+                if (moveto_x[count] == movefrom_x[count] || moveto_y[count] == movefrom_y[count] || moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
+                {
+                    move();
+                }
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 5)
+            {
+                    //King
+                if (moveto_y[count] == movefrom_y[count]-1 || moveto_x[count] == movefrom_x[count]-1 || moveto_y[count] == movefrom_y[count]+1
+                    || moveto_x[count] == movefrom_x[count]+1)
+                {
+                    move();
+                }
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 6)
+            {
+                    // Pawn
+                if (movefrom_x[count] == moveto_x[count])
+                {
+                    if (black_pawn_moved[movefrom_x[count]] == 0)
+                    {
+                        if (moveto_y[count] == movefrom_y[count]+1 || moveto_y[count] == movefrom_y[count]+2)
+                        {
+                            black_pawn_moved[movefrom_x[count]] = 1;
+                            move();
+                        }
+                    } else
+                    {
+                        if (moveto_y[count] == movefrom_y[count]+1)
+                        {
+                            move();
+                        }
+                    }
+                }
+                // Player Two
+
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 11)
+            {
+                    //Rock
+                if (moveto_x[count] == movefrom_x[count] || moveto_y[count] == movefrom_y[count])
+                {
+                    move();
+                }
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 12)
+            {
+                    //Knight
+
+
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 13)
+            {
+                    //Bishop
+                if (moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
+                {
+                    move();
+                }
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 14)
+            {
+                    //Queen
+                if (moveto_x[count] == movefrom_x[count] || moveto_y[count] == movefrom_y[count] || moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
+                {
+                    move();
+                }
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 15)
+            {
+                    //King
+                if (moveto_y[count] == movefrom_y[count]-1 || moveto_x[count] == movefrom_x[count]-1 || moveto_y[count] == movefrom_y[count]+1
+                    || moveto_x[count] == movefrom_x[count]+1)
+                {
+                    move();
+                }
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 7)
+            {
+                    // Pawn
+                if (movefrom_x[count] == moveto_x[count])
+                {
+                    if (white_pawn_moved[movefrom_x[count]] == 0)
+                    if (moveto_y[count] == movefrom_y[count]-1 || moveto_y[count] == movefrom_y[count]-2)
+                    {
+                        white_pawn_moved[movefrom_x[count]] = 1;
+                        move();
+                    } else if (moveto_y[count] == movefrom_y[count]-1)
+                    {
+                        move();
+                    }
+                }
             }
         }
-
 }
 
 int main()
@@ -211,10 +301,10 @@ int main()
     render();
 
     //white to move
-    for (internal=0; internal<4; internal++)
+    for (internal=0; internal<100; internal++)
     {
-        //Should +1 to count
-        printf("\nTurn: %d\n", count);
+        // Should have count only realise change after each player has played
+        printf("\nTurn: %d\n", count+1);
         turn();
     }
 
