@@ -37,22 +37,22 @@ void setup()
     }
 
         //white
-    Grid[8][1] = 1;
-    Grid[8][8] = 1;
+    Grid[8][1] = 21;
+    Grid[8][8] = 21;
 
-    Grid[8][2] = 2;
-    Grid[8][7] = 2;
+    Grid[8][2] = 22;
+    Grid[8][7] = 22;
 
-    Grid[8][3] = 3;
-    Grid[8][6] = 3;
+    Grid[8][3] = 23;
+    Grid[8][6] = 23;
 
-    Grid[8][4] = 4;
+    Grid[8][4] = 24;
 
-    Grid[8][5] = 5;
+    Grid[8][5] = 25;
 
     for (k=1; k<dimension; k++)
     {
-        Grid[7][k] = 7;
+        Grid[7][k] = 77;
     }
 }
 
@@ -64,58 +64,75 @@ render()
         {
             if (Grid[i][j] == 1)
             {
-                printf("  Rock  |");
+                printf("  BRock   |");
             } else if (Grid[i][j] == 2)
             {
-                printf(" Horse  |");
+                printf("  BHorse  |");
             } else if (Grid[i][j] == 3)
             {
-                printf(" Bishop |");
+                printf(" BBishop  |");
             } else if (Grid[i][j] == 4)
             {
-                printf(" Queen  |");
+                printf("  BQueen  |");
             } else if (Grid[i][j] == 5)
             {
-                printf("  King  |");
+                printf("   BKing  |");
             } else if (Grid[i][j] == 6)
             {
-                printf(" WPawn  |");
-            } else if (Grid[i][j] == 7)
+                printf("  BPawn   |");
+            } else if (Grid[i][j] == 77)
             {
-                printf(" BPawn  |");
+                printf("  WPawn   |");
             } else if (Grid[i][j] == 11)
             {
-                printf("   1    |");
+                printf("    1     |");
             } else if (Grid[i][j] == 12)
             {
-                printf("   2    |");
+                printf("    2     |");
             } else if (Grid[i][j] == 13)
             {
-                printf("   3    |");
+                printf("    3     |");
             } else if (Grid[i][j] == 14)
             {
-                printf("   4    |");
+                printf("    4     |");
             } else if (Grid[i][j] == 15)
             {
-                printf("   5    |");
+                printf("    5     |");
             } else if (Grid[i][j] == 16)
             {
-                printf("   6    |");
+                printf("    6     |");
             } else if (Grid[i][j] == 17)
             {
-                printf("   7    |");
+                printf("    7     |");
             } else if (Grid[i][j] == 18)
             {
-                printf("   8    |");
+                printf("    8     |");
+            }
+
+            else if (Grid[i][j] == 21)
+            {
+                printf("  WRock   |");
+            } else if (Grid[i][j] == 22)
+            {
+                printf("  WHorse  |");
+            } else if (Grid[i][j] == 23)
+            {
+                printf("  WBisop  |");
+            } else if (Grid[i][j] == 24)
+            {
+                printf("  WQueen  |");
+            } else if (Grid[i][j] == 25)
+            {
+                printf("   WKing  |");
             } else
             {
-                printf("        |");
+                printf("          |");
             }
         }
         printf("\n");
         for (k=0; k<dimension; k++)
         {
-            printf(" ------- ");
+            printf(" --------- ");
         }
         printf("\n");
     }
@@ -160,9 +177,10 @@ verify()
     if (movefrom_y[count] == moveto_y[count] && movefrom_x[count] == moveto_x[count])
         {
             printf("\n||  Error!  ||\nnot moving\n");
-        } else
+        } else if(Grid[movefrom_y[count]][movefrom_x[count]] < 10 && white == 0)
         {
-                // Player One
+
+                // Black
             if (Grid[movefrom_y[count]][movefrom_x[count]] == 1)
             {
                     //Rock
@@ -174,30 +192,30 @@ verify()
             {
                     //Knight
                 if (moveto_x[count] == movefrom_x[count]+1 && moveto_y[count] == movefrom_y[count]+2)
-                {
-                    move();
-                } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]+2)
-                {
-                    move();
-                } else if (moveto_x[count] == movefrom_x[count]+1 && moveto_y[count] == movefrom_y[count]-2)
-                {
-                    move();
-                } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]-2)
-                {
-                    move();
-                } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]+1)
-                {
-                    move();
-                } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]-1)
-                {
-                    move();
-                } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]+1)
-                {
-                    move();
-                } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]-1)
-                {
-                    move();
-                }
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]+2)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]+1 && moveto_y[count] == movefrom_y[count]-2)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]-2)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]+1)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]-1)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]+1)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]-1)
+                    {
+                        move();
+                    }
             } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 3)
             {
                     //Bishop
@@ -240,35 +258,62 @@ verify()
                         }
                     }
                 }
-                // Player Two
+            }
 
-            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 11)
+            //White
+        } else if (Grid[movefrom_y[count]][movefrom_x[count]] > 10 && white == 1)
+        {
+            if (Grid[movefrom_y[count]][movefrom_x[count]] == 21)
             {
                     //Rock
                 if (moveto_x[count] == movefrom_x[count] || moveto_y[count] == movefrom_y[count])
                 {
                     move();
                 }
-            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 12)
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 22)
             {
                     //Knight
+                if (moveto_x[count] == movefrom_x[count]+1 && moveto_y[count] == movefrom_y[count]+2)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]+2)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]+1 && moveto_y[count] == movefrom_y[count]-2)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]-2)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]+1)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]-1)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]+1)
+                    {
+                        move();
+                    } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]-1)
+                    {
+                        move();
+                    }
 
-
-            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 13)
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 23)
             {
                     //Bishop
                 if (moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
                 {
                     move();
                 }
-            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 14)
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 24)
             {
                     //Queen
                 if (moveto_x[count] == movefrom_x[count] || moveto_y[count] == movefrom_y[count] || moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
                 {
                     move();
                 }
-            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 15)
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 25)
             {
                     //King
                 if (moveto_y[count] == movefrom_y[count]-1 || moveto_x[count] == movefrom_x[count]-1 || moveto_y[count] == movefrom_y[count]+1
@@ -276,7 +321,7 @@ verify()
                 {
                     move();
                 }
-            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 7)
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 77)
             {
                     // Pawn
                 if (movefrom_x[count] == moveto_x[count])
@@ -310,3 +355,7 @@ int main()
 
     return 0;
 }
+
+
+
+// BUG!!! Names are wrong, WPawn is black, and BPawn is white
