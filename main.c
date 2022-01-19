@@ -232,6 +232,7 @@ verify()
                         move();
                     }
                     passthrough = 0;
+
                 }
             } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 2)
             {
@@ -288,24 +289,35 @@ verify()
                         // Pawn
                     if (movefrom_x[count] == moveto_x[count])
                     {
-                        if (black_pawn_moved[movefrom_x[count]] == 0)
+                        for (l=1; l<=Ychange; l++)
                         {
-                            if (moveto_y[count] == movefrom_y[count]+1 || moveto_y[count] == movefrom_y[count]+2)
+
+                            if (Grid[movefrom_y[count]+l][movefrom_x[count]] != 0)
                             {
-                                black_pawn_moved[movefrom_x[count]] = 1;
-                                move();
-                            }
-                        } else
-                        {
-                            if (moveto_y[count] == movefrom_y[count]+1)
-                            {
-                                move();
+                                passthrough = 1;
                             }
                         }
+                        if (passthrough == 0)
+                        {
+                            if (black_pawn_moved[movefrom_x[count]] == 0)
+                            {
+                                if (moveto_y[count] == movefrom_y[count]+1 || moveto_y[count] == movefrom_y[count]+2)
+                                {
+                                    black_pawn_moved[movefrom_x[count]] = 1;
+                                    move();
+                                }
+                            } else
+                            {
+                                if (moveto_y[count] == movefrom_y[count]+1)
+                                {
+                                    move();
+                                }
+                            }
+                        }
+                        passthrough = 0;
                     }
                 }
             }
-
         }
                         //White
         else if (Grid[movefrom_y[count]][movefrom_x[count]] > 10 && white == 1)
@@ -353,8 +365,6 @@ verify()
                         move();
                     }
                     passthrough = 0;
-
-
 
                 } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 22)
                     {
@@ -412,17 +422,31 @@ verify()
                             // Pawn
                         if (movefrom_x[count] == moveto_x[count])
                         {
-                            if (white_pawn_moved[movefrom_x[count]] == 0)
+                            for (l=1; l<=Ychange; l++)
                             {
-                                if (moveto_y[count] == movefrom_y[count]-1 || moveto_y[count] == movefrom_y[count]-2)
+                                if (Grid[movefrom_y[count]-l][movefrom_x[count]] != 0)
                                 {
-                                    white_pawn_moved[movefrom_x[count]] = 1;
-                                    move();
+                                    passthrough = 1;
                                 }
-                            } else if (moveto_y[count] == movefrom_y[count]-1)
-                            {
-                                move();
                             }
+                            if (passthrough == 0)
+                            {
+                                if (white_pawn_moved[movefrom_x[count]] == 0)
+                                {
+                                    if (moveto_y[count] == movefrom_y[count]-1 || moveto_y[count] == movefrom_y[count]-2)
+                                    {
+                                        white_pawn_moved[movefrom_x[count]] = 1;
+                                        move();
+                                    }
+                                } else
+                                {
+                                    if (moveto_y[count] == movefrom_y[count]-1)
+                                    {
+                                        move();
+                                    }
+                                }
+                            }
+                            passthrough = 0;
                         }
                     }
                 }
