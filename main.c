@@ -57,7 +57,7 @@ void setup()
     }
 }
 
-render()
+void render()
 {
     for (i=0; i<dimension; i++)
     {
@@ -139,7 +139,7 @@ render()
     }
 }
 
-turn()
+void turn()
 {
     if (white)
     {
@@ -155,7 +155,7 @@ turn()
     }
 }
 
-move()
+void move()
 {
     Grid[moveto_y[count]][moveto_x[count]] = Grid[movefrom_y[count]][movefrom_x[count]];
     Grid[movefrom_y[count]][movefrom_x[count]] = 0;
@@ -173,27 +173,166 @@ move()
     render();
 }
 
-verify()
+void verify()
 {
     Ychange = abs(moveto_y[count]-movefrom_y[count]);
     Xchange = abs(moveto_x[count]-movefrom_x[count]);
     //Check in the negative direction required
 
     if (movefrom_y[count] == moveto_y[count] && movefrom_x[count] == moveto_x[count])
-        {
-            printf("\n||  Error!  ||\nnot moving\n");
-        }
+    {
+        printf("\n||  Error!  ||\nnot moving\n");
+    }
 
-                           // Black
-        else if(Grid[movefrom_y[count]][movefrom_x[count]] < 10 && white == 0)
+                    //Black
+    else if(Grid[movefrom_y[count]][movefrom_x[count]] < 10 && white == 0)
+    {
+        if (Grid[moveto_y[count]][moveto_x[count]] > 10 || Grid[moveto_y[count]][moveto_x[count]] == 0)
         {
-            if (Grid[moveto_y[count]][moveto_x[count]] > 10 || Grid[moveto_y[count]][moveto_x[count]] == 0)
-            {
-            if (Grid[movefrom_y[count]][movefrom_x[count]] == 1)
-            {
+        if (Grid[movefrom_y[count]][movefrom_x[count]] == 1)
+        {
                     //Rock
-                if (moveto_x[count] == movefrom_x[count] || moveto_y[count] == movefrom_y[count])
+            if (moveto_x[count] == movefrom_x[count] || moveto_y[count] == movefrom_y[count])
+            {
+                for (l=1; l<Ychange; l++)
                 {
+                    if (moveto_y[count] - movefrom_y[count] > 0)
+                    {
+                        if (Grid[movefrom_y[count]+l][movefrom_x[count]] != 0)
+                        {
+                            passthrough = 1;
+                        }
+                    } else
+                    {
+                        if (Grid[movefrom_y[count]-l][movefrom_x[count]] != 0)
+                        {
+                            passthrough = 1;
+                        }
+                    }
+
+                }
+                for (l=1; l<Xchange; l++)
+                {
+                    if (moveto_x[count] - movefrom_x[count] > 0)
+                    {
+                        if (Grid[movefrom_y[count]][movefrom_x[count]+l] != 0)
+                        {
+                            passthrough = 1;
+                        }
+                    } else
+                    {
+                        if (Grid[movefrom_y[count]][movefrom_x[count]-l] != 0)
+                        {
+                            passthrough = 1;
+                        }
+                    }
+                }
+                if (passthrough == 0)
+                {
+                    move();
+                }
+                passthrough = 0;
+            }
+        } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 2)
+        {
+                    //Knight
+            if (moveto_x[count] == movefrom_x[count]+1 && moveto_y[count] == movefrom_y[count]+2)
+            {
+                move();
+            } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]+2)
+            {
+                move();
+            } else if (moveto_x[count] == movefrom_x[count]+1 && moveto_y[count] == movefrom_y[count]-2)
+            {
+                move();
+            } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]-2)
+            {
+                move();
+            } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]+1)
+            {
+                move();
+            } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]-1)
+            {
+                move();
+            } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]+1)
+            {
+                move();
+            } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]-1)
+            {
+                move();
+            }
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 3)
+            {
+                    //Bishop
+                if (moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
+                {
+                    for (l=1; l<Ychange; l++)
+                        {
+                            if (moveto_y[count]-movefrom_y[count] > 0 && moveto_x[count] - movefrom_x[count] > 0)
+                            {
+                                if (Grid[movefrom_y[count]+l][movefrom_x[count]+l] != 0)
+                                {
+                                    passthrough = 1;
+                                }
+                            } else if (moveto_y[count]-movefrom_y[count] < 0 && moveto_x[count] - movefrom_x[count] > 0)
+                            {
+                                if (Grid[movefrom_y[count]-l][movefrom_x[count]+l] != 0)
+                                {
+                                    passthrough = 1;
+                                }
+                            } else if (moveto_y[count]-movefrom_y[count] < 0 && moveto_x[count] - movefrom_x[count] < 0)
+                            {
+                                if (Grid[movefrom_y[count]-l][movefrom_x[count]-l] != 0)
+                                {
+                                    passthrough = 1;
+                                }
+                            } else if (moveto_y[count]-movefrom_y[count] > 0 && moveto_x[count] - movefrom_x[count] < 0)
+                            {
+                                if (Grid[movefrom_y[count]+l][movefrom_x[count]-l] != 0)
+                                {
+                                    passthrough = 1;
+                                }
+                            }
+                        }
+                    if (passthrough == 0)
+                    {
+                        move();
+                    }
+                    passthrough = 0;
+                }
+            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 4)
+            {
+                    //Queen
+                if (moveto_x[count] == movefrom_x[count] || moveto_y[count] == movefrom_y[count] || moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
+                {
+                    for (l=1; l<Ychange; l++)
+                    {
+                        if (moveto_y[count]-movefrom_y[count] > 0 && moveto_x[count] - movefrom_x[count] > 0)
+                        {
+                            if (Grid[movefrom_y[count]+l][movefrom_x[count]+l] != 0)
+                            {
+                                passthrough = 1;
+                            }
+                        } else if (moveto_y[count]-movefrom_y[count] < 0 && moveto_x[count] - movefrom_x[count] > 0)
+                        {
+                            if (Grid[movefrom_y[count]-l][movefrom_x[count]+l] != 0)
+                            {
+                                passthrough = 1;
+                            }
+                        } else if (moveto_y[count]-movefrom_y[count] < 0 && moveto_x[count] - movefrom_x[count] < 0)
+                        {
+                            if (Grid[movefrom_y[count]-l][movefrom_x[count]-l] != 0)
+                            {
+                                passthrough = 1;
+                            }
+                        } else if (moveto_y[count]-movefrom_y[count] > 0 && moveto_x[count] - movefrom_x[count] < 0)
+                        {
+                            if (Grid[movefrom_y[count]+l][movefrom_x[count]-l] != 0)
+                            {
+                                passthrough = 1;
+                            }
+                        }
+                    }
                     for (l=1; l<Ychange; l++)
                     {
                         if (moveto_y[count] - movefrom_y[count] > 0)
@@ -209,7 +348,6 @@ verify()
                                 passthrough = 1;
                             }
                         }
-
                     }
                     for (l=1; l<Xchange; l++)
                     {
@@ -232,49 +370,6 @@ verify()
                         move();
                     }
                     passthrough = 0;
-
-                }
-            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 2)
-            {
-                    //Knight
-                if (moveto_x[count] == movefrom_x[count]+1 && moveto_y[count] == movefrom_y[count]+2)
-                    {
-                        move();
-                    } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]+2)
-                    {
-                        move();
-                    } else if (moveto_x[count] == movefrom_x[count]+1 && moveto_y[count] == movefrom_y[count]-2)
-                    {
-                        move();
-                    } else if (moveto_x[count] == movefrom_x[count]-1 && moveto_y[count] == movefrom_y[count]-2)
-                    {
-                        move();
-                    } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]+1)
-                    {
-                        move();
-                    } else if (moveto_x[count] == movefrom_x[count]+2 && moveto_y[count] == movefrom_y[count]-1)
-                    {
-                        move();
-                    } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]+1)
-                    {
-                        move();
-                    } else if (moveto_x[count] == movefrom_x[count]-2 && moveto_y[count] == movefrom_y[count]-1)
-                    {
-                        move();
-                    }
-            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 3)
-            {
-                    //Bishop
-                    if (moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
-                {
-                    move();
-                }
-            } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 4)
-            {
-                    //Queen
-                if (moveto_x[count] == movefrom_x[count] || moveto_y[count] == movefrom_y[count] || moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
-                {
-                    move();
                 }
             } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 5)
             {
@@ -319,7 +414,7 @@ verify()
                 }
             }
         }
-                        //White
+                    //White
         else if (Grid[movefrom_y[count]][movefrom_x[count]] > 10 && white == 1)
         {
             if (Grid[moveto_y[count]][moveto_x[count]] < 10 || Grid[moveto_y[count]][moveto_x[count]] == 0)
@@ -400,14 +495,110 @@ verify()
                             //Bishop
                         if (moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
                         {
-                            move();
+                            for (l=1; l<Ychange; l++)
+                            {
+                                if (moveto_y[count]-movefrom_y[count] > 0 && moveto_x[count] - movefrom_x[count] > 0)
+                                {
+                                    if (Grid[movefrom_y[count]+l][movefrom_x[count]+l] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                } else if (moveto_y[count]-movefrom_y[count] < 0 && moveto_x[count] - movefrom_x[count] > 0)
+                                {
+                                    if (Grid[movefrom_y[count]-l][movefrom_x[count]+l] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                } else if (moveto_y[count]-movefrom_y[count] < 0 && moveto_x[count] - movefrom_x[count] < 0)
+                                {
+                                    if (Grid[movefrom_y[count]-l][movefrom_x[count]-l] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                } else if (moveto_y[count]-movefrom_y[count] > 0 && moveto_x[count] - movefrom_x[count] < 0)
+                                {
+                                    if (Grid[movefrom_y[count]+l][movefrom_x[count]-l] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                }
+                            }
+                            if (passthrough == 0)
+                            {
+                                move();
+                            }
+                            passthrough = 0;
                         }
                     } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 24)
                     {
                             //Queen
                         if (moveto_x[count] == movefrom_x[count] || moveto_y[count] == movefrom_y[count] || moveto_y[count] == (movefrom_y[count]+moveto_x[count]-movefrom_x[count]) || moveto_y[count] == (movefrom_y[count]+abs(moveto_x[count]-movefrom_x[count])) || moveto_y[count] == (movefrom_y[count]+movefrom_x[count] - moveto_x[count]))
                         {
-                            move();
+                            for (l=1; l<Ychange; l++)
+                            {
+                                if (moveto_y[count]-movefrom_y[count] > 0 && moveto_x[count] - movefrom_x[count] > 0)
+                                {
+                                    if (Grid[movefrom_y[count]+l][movefrom_x[count]+l] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                } else if (moveto_y[count]-movefrom_y[count] < 0 && moveto_x[count] - movefrom_x[count] > 0)
+                                {
+                                    if (Grid[movefrom_y[count]-l][movefrom_x[count]+l] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                } else if (moveto_y[count]-movefrom_y[count] < 0 && moveto_x[count] - movefrom_x[count] < 0)
+                                {
+                                    if (Grid[movefrom_y[count]-l][movefrom_x[count]-l] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                } else if (moveto_y[count]-movefrom_y[count] > 0 && moveto_x[count] - movefrom_x[count] < 0)
+                                {
+                                    if (Grid[movefrom_y[count]+l][movefrom_x[count]-l] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                }
+                            }
+                            for (l=1; l<Ychange; l++)
+                            {
+                                if (moveto_y[count] - movefrom_y[count] > 0)
+                                {
+                                    if (Grid[movefrom_y[count]+l][movefrom_x[count]] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                } else
+                                {
+                                    if (Grid[movefrom_y[count]-l][movefrom_x[count]] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                }
+                            }
+                            for (l=1; l<Xchange; l++)
+                            {
+                                if (moveto_x[count] - movefrom_x[count] > 0)
+                                {
+                                    if (Grid[movefrom_y[count]][movefrom_x[count]+l] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                } else
+                                {
+                                    if (Grid[movefrom_y[count]][movefrom_x[count]-l] != 0)
+                                    {
+                                        passthrough = 1;
+                                    }
+                                }
+                            }
+                            if (passthrough == 0)
+                            {
+                                move();
+                            }
+                            passthrough = 0;
                         }
                     } else if (Grid[movefrom_y[count]][movefrom_x[count]] == 25)
                     {
@@ -475,3 +666,5 @@ int main()
 
 
 // BUG!!! Names are wrong,  Rook spelt Rock in code
+// queen diagonal bug?
+// pawn on 4 bug?
