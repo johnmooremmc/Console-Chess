@@ -59,6 +59,7 @@ void setup()
 
 void render()
 {
+    system("cls");
     for (i=0; i<dimension; i++)
     {
         for (j=0; j<dimension; j++)
@@ -666,5 +667,3 @@ int main()
 
 
 // BUG!!! Names are wrong,  Rook spelt Rock in code
-// queen diagonal bug?
-// pawn on 4 bug?
